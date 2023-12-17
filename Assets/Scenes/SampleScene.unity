@@ -5196,8 +5196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 778487306215130717, guid: 714fba5ec532f784b98a1f41d6cbd89a, type: 3}
   - {fileID: 8217979015455680046, guid: 09d15ef448c9dc14d93f61dbda493699, type: 3}
+  - {fileID: 3118804641029428352, guid: ffca5f02881bfd5448b413e61c100934, type: 3}
 --- !u!4 &1182717516
 Transform:
   m_ObjectHideFlags: 0
@@ -5213,6 +5213,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1249969385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1249969386}
+  - component: {fileID: 1249969387}
+  m_Layer: 0
+  m_Name: Weapon 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1249969386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249969385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1980007793}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1249969387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249969385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea46f692534ecb44af2e914d666794e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  prefabId: 0
+  damage: 0
+  count: 0
+  speed: 0
 --- !u!1 &1327383502
 GameObject:
   m_ObjectHideFlags: 0
@@ -5269,6 +5318,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba04e19e1ce7de745b58a25ca637ed4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoint: []
+  spawnData:
+  - spawnTime: 0.7
+    spriteType: 0
+    health: 10
+    speed: 1.5
+  - spawnTime: 0.2
+    spriteType: 1
+    health: 15
+    speed: 2.4
 --- !u!1 &1349144582
 GameObject:
   m_ObjectHideFlags: 0
@@ -18667,6 +18726,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1980007796}
   pool: {fileID: 1182717515}
+  gameTime: 0
+  maxGameTime: 20
 --- !u!1 &1980007789
 GameObject:
   m_ObjectHideFlags: 0
@@ -18818,6 +18879,7 @@ Transform:
   - {fileID: 792011490}
   - {fileID: 1796261782}
   - {fileID: 1327383503}
+  - {fileID: 1249969386}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1980007795

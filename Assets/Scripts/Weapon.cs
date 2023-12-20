@@ -10,29 +10,130 @@ public class Weapon : MonoBehaviour
     public int count; // 개수
     public float speed; // 속도
 
-    void Update()
-    {
+    float timer; // 총알 발사 타이머
+    Player player;
 
+    void Awake()
+    {
+        // GetComponentInParent : 부모의 컴포넌트를 가져옴.
+        player = GetComponentInParent<Player>();
     }
 
-    public void init()
+    void Start()
+    {
+        Init();
+    }
+
+    void Update()
     {
         switch (id)
         {
             case 0:
-                speed = -150; // 음수여야지 시계방향으로 회전
+                transform.Rotate(Vector3.forward * speed * Time.deltaTime);
+                // Vector3.forward -> (0, 0, 1)
+                // Vector3.back -> (0, 0, -1)
+                break;
+            default:
+                timer += Time.deltaTime;
+
+                if (timer > speed)
+                {
+                    timer = 0f;
+                    Fire();
+                }
+                break;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            LevelUp(10, 1);
+        }
+    }
+
+    // 레벨업
+    public void LevelUp(float damage, int count)
+    {
+        this.damage = damage;
+        this.count += count;
+
+        if (id == 0)
+        {
+            Batch();
+        }
+    }
+
+    public void Init()
+    {
+        switch (id)
+        {
+            case 0:
+                speed = -150; // Vector3.forward 를 사용하기에 음수여야지 시계방향으로 회전
                 Batch();
                 break;
             default:
+                // speed 값은 연사속도를 의미 -> 적을 수록 많이 발사
+                speed = 0.3f;
                 break;
         }
     }
 
+    // 배치
     void Batch()
     {
-        for(int index = 0; index < count; index++)
+        for (int index = 0; index < count; index++)
         {
-            Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
+            Transform bullet;
+
+            if (index < transform.childCount) // childCount : 자식 오브젝트 개수 확인
+            {
+                // count 에 기존에 있던 bullet 까지 포함해서 사용
+                // if (index < transform.childCount) 이 없으면 기존 bullet 을 제외하고 count 만큼 다시 생성됨.
+                bullet = transform.GetChild(index);
+            }
+            else
+            {
+                // 기존의 bullet 보다 count 가 클 시, 그만큼만 pool 에서 가져와서 더 생성
+                bullet = GameManager.instance.pool.Get(prefabId).transform;
+                bullet.parent = transform; // 새롭게 만들어진 오브젝트의 부모를 자기자신으로 변경
+            }
+
+            // 초기화
+            bullet.localPosition = Vector3.zero;
+            bullet.localRotation = Quaternion.identity;
+
+            // 회전
+            Vector3 rotVec = Vector3.forward * 360 * index / count;
+            bullet.Rotate(rotVec);
+
+            // 위치
+            bullet.Translate(bullet.up * 1.5f, Space.World);
+
+            // 값 설정
+            bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1 은 관통력 무한의 의미
         }
+    }
+
+    // 총알 발사
+    void Fire()
+    {
+        // 인식된 적이 있는 지 먼저 파악
+        if(!player.scanner.nearestTarget)
+            return;
+
+        // 목표 위치의 방향 구하기
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized; // normalized : 현재 벡터의 방향은 유지하고 크기를 1로 변환하는 속성
+
+        // 초기화
+        Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
+        bullet.position = transform.position;
+
+        // 오브젝트 날아가는 방향에 맞게 회전 설정
+        // FromToRotation : 지정된 축을 중심으로 목표를 향해 회전하는 함수
+        bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+
+        // 값 설정
+        bullet.GetComponent<Bullet>().Init(damage, count, dir);
     }
 }

@@ -37,8 +37,7 @@ public class Weapon : MonoBehaviour
                 if (timer > speed)
                 {
                     timer = 0f;
-                    Fire();
-                    Debug.Log("πﬂΩŒ");
+                    Fire(); 
                 }
 
                 break;
@@ -46,11 +45,11 @@ public class Weapon : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            Levelup(20, 5);
+            Levelup(1, 1);
         }
     }
 
-    public void Levelup(float damage, int per)
+    public void Levelup(float damage, int count)
     {
         this.damage = damage;
         this.count += count;
@@ -104,7 +103,6 @@ public class Weapon : MonoBehaviour
 
     void Fire()
     {
-        Debug.Log("¿¿æ÷");
         if (!player.scanner.nearestTarget)
         {
             return;

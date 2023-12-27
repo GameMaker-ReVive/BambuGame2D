@@ -28,10 +28,8 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy") || per == -1)
-        {
-            return;
-        }
+        if (!collision.CompareTag("Enemy") || per == -1) { 
+        return; }
 
         per--;
 

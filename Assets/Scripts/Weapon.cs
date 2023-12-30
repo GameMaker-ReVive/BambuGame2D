@@ -11,17 +11,11 @@ public class Weapon : MonoBehaviour
     public float speed; // 속도
 
     float timer; // 총알 발사 타이머
-    Player player;
+    [SerializeField] Player player;
 
     void Awake()
     {
-        // GetComponentInParent : 부모의 컴포넌트를 가져옴.
-        player = GetComponentInParent<Player>();
-    }
-
-    void Start()
-    {
-        Init();
+        player = GameManager.instance.player;
     }
 
     void Update()
@@ -43,11 +37,6 @@ public class Weapon : MonoBehaviour
                 }
                 break;
         }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            LevelUp(10, 1);
-        }
     }
 
     // 레벨업
@@ -62,8 +51,28 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
+        // Basic Set
+        name = "Weapon " + data.itemId;
+        transform.parent = player.transform; // 생성한 오브젝트를 플레이어 자식으로 설정
+        transform.localPosition = Vector3.zero; // 플레이어 안에서 위치를 (0, 0, 0) 으로 맞추기에 지역 위치인 LocalPosition 을 원점으로 변경
+
+        // Property Set
+        id = data.itemId;
+        damage = data.baseDamage;
+        count = data.baseCount;
+
+        for(int index = 0; index < GameManager.instance.pool.prefabs.Length; index++)
+        {
+            // ItemData 에서 설정해둔 프리팹과 pool 에 있는 프리팹이 같을 경우 index 순서를 prefabId 로 설정
+            if(data.projectile == GameManager.instance.pool.prefabs[index])
+            {
+                prefabId = index;
+                break;
+            }
+        }
+
         switch (id)
         {
             case 0:

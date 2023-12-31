@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(instance);
         gameTime += Time.deltaTime;
 
         if(gameTime >= maxGameTime)

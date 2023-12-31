@@ -8,6 +8,7 @@ public class Item : MonoBehaviour
     public ItemData data;
     public int level;
     public Weapon weapon;
+    public Gear gear;
 
     Image icon;
     Text textLevel;
@@ -50,16 +51,30 @@ public class Item : MonoBehaviour
 
                     weapon.LevelUp(nextDamage, nextCount);
                 }
+
+                level++;
                 break;
             case ItemData.ItemType.Glove:
-                break;
             case ItemData.ItemType.Shoe:
+                if (level == 0)
+                {
+                    GameObject newGear = new GameObject();
+                    // AddComponent 함수 반환 값을 미리 선언한 변수에 저장
+                    gear = newGear.AddComponent<Gear>(); // AddComponent<T> : 게임오브젝트에 T 컴포넌트를 추가하는 함수
+                    gear.Init(data);
+                } else
+                {
+                    float nextRate = data.damages[level];
+                    gear.LevelUp(nextRate);
+                }
+
+                level++;
                 break;
             case ItemData.ItemType.Heal:
+                GameManager.instance.health = GameManager.instance.maxHealth;
+                // 일회성 아이템은 레벨업이 필요 없기에 level++ 코드를 제외
                 break;
         }
-
-        level++;
 
         // 현재 레벨이 최대 레벨과 같을 시
         if(level == data.damages.Length)

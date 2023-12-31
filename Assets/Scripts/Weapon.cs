@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
         switch (id)
         {
             case 0:
-                transform.Rotate(Vector3.forward * speed * Time.deltaTime);
+                transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 // Vector3.forward -> (0, 0, 1)
                 // Vector3.back -> (0, 0, -1)
                 break;
@@ -49,6 +49,10 @@ public class Weapon : MonoBehaviour
         {
             Batch();
         }
+
+        // player 가 가지고 있는 모든 Gear 에 한해서 모두 ApplyGear 함수를 실행
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver); // BroadcastMessage : 특정 함수 호출을 모든 자식에게 방송하는 함수
+        // SendMessageOptions.DontRequireReceiver : 호출을 받는 개체가 꼭 존재하지 않아도 된다라는 옵션을 추가
     }
 
     public void Init(ItemData data)
@@ -76,7 +80,7 @@ public class Weapon : MonoBehaviour
         switch (id)
         {
             case 0:
-                speed = -150; // Vector3.forward 를 사용하기에 음수여야지 시계방향으로 회전
+                speed = 150; // Vector3.back 를 사용하기에 양수여야지 시계방향으로 회전
                 Batch();
                 break;
             default:
@@ -84,6 +88,8 @@ public class Weapon : MonoBehaviour
                 speed = 0.3f;
                 break;
         }
+
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
     // 배치

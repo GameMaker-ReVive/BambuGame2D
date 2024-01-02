@@ -22,6 +22,11 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.instance.isLive)
+        {
+            return;
+        }
+
         switch (id)
         {
             case 0:
@@ -88,8 +93,11 @@ public class Weapon : MonoBehaviour
                 break;
         }
 
-        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
+        Hand hand = player.hands[(int)data.itemType]; //eum = 열거형 데이터라서
+        hand.spriter.sprite = data.hand;
+        hand.gameObject.SetActive(true);
 
+        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
     }
 
     void Batch()

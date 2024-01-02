@@ -10,6 +10,7 @@ public class ItemData : ScriptableObject
     [Header("# Main Info")]
     public int itemId;
     public string itemName;
+    [TextArea]
     public string itemDesc;
     public Sprite itemIcon;
     public ItemType itemType;
@@ -20,6 +21,7 @@ public class ItemData : ScriptableObject
     public float[] damages;
     public int[] counts;
 
-    [Header("# Weapon Data")]
+    [Header("# Weapon")]
     public GameObject projectile;
+    public Sprite hand;
 }

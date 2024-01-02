@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Item : MonoBehaviour
@@ -12,6 +13,8 @@ public class Item : MonoBehaviour
 
     Image icon;
     Text textLevel;
+    Text textName;
+    Text textDesc;
 
     void Awake()
     {
@@ -20,11 +23,30 @@ public class Item : MonoBehaviour
 
         Text[] texts = GetComponentsInChildren<Text>();
         textLevel = texts[0]; // icon 과 달리 GetComponentsInChildren 의 첫번째 Text 컴포넌트는 Text Level 이기에 첫번째 값을 가져옴.
+        textName = texts[1];
+        textDesc = texts[2];
+        textName.text = data.itemName;
     }
 
-    void LateUpdate()
+    void OnEnable()
     {
         textLevel.text = "Lv." + (level + 1);
+
+        switch(data.itemType)
+        {
+            case ItemData.ItemType.Melee:
+            case ItemData.ItemType.Range:
+                textDesc.text = string.Format(data.itemDesc, data.damages[level] * 100, data.counts[level]);
+                break;
+            case ItemData.ItemType.Glove:
+            case ItemData.ItemType.Shoe:
+                textDesc.text = string.Format(data.itemDesc, data.damages[level] * 100);
+                break;
+            default:
+                textDesc.text = string.Format(data.itemDesc);
+                break;
+
+        }
     }
 
     public void OnClick()

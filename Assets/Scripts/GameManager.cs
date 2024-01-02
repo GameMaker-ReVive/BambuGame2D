@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,10 +17,12 @@ public class GameManager : MonoBehaviour
     [Header("# Game Control")]
     public float gameTime; // 게임시간
     public float maxGameTime = 2 * 10f; // 최대게임시간
+    public bool isLive;
 
     [Header("# Game Object")]
     public Player player;
     public PoolManager pool;
+    public LevelUp uiLevelUp;
     
     // 정적으로 사용하겠다는 키워드. 바로 메모리에 얹어버림.
     // 초기화 없이 다른 코드에서 사용 가능 (앞에 자료형은 붙여줘야 함)
@@ -33,10 +36,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+
+        // 임시 스크립트 (첫번째 캐릭터 선택)
+        uiLevelUp.Select(0);
     }
 
     void Update()
     {
+        if (!isLive)
+            return;
+
         gameTime += Time.deltaTime;
 
         if(gameTime >= maxGameTime)
@@ -49,10 +58,23 @@ public class GameManager : MonoBehaviour
     {
         exp++;
 
-        if(exp == nextExp[level])
+        if(exp == nextExp[Mathf.Min(level, nextExp.Length - 1)]) // Min 함수를 사용하여 최고 경험치를 그대로 사용
         {
             level++;
             exp = 0;
+            uiLevelUp.Show();
         }
+    }
+
+    public void Stop()
+    {
+        isLive = false;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        isLive = true;
+        Time.timeScale = 1;
     }
 }

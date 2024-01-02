@@ -6,12 +6,13 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     // 아이템 타입 (근접, 원거리, 장갑, 신발, 힐)
-    public enum ItemType { Melee, Range, Glove, Shoe, Heal }
+    public enum ItemType { Melee, Range, Glove, Shoe, Heal } // enum 열거형 데이터는 정수 형태로도 사용 가능
 
     [Header("# Main Info")]
     public ItemType itemType; // 아이템 타입
     public int itemId; // 아이템 id
     public string itemName; // 아이템 이름
+    [TextArea] // 인스펙터에 텍스트를 여러 줄 넣을 수 있게 해주는 속성
     public string itemDesc; // 아이템 설명
     public Sprite itemIcon; // 아이템 아이콘
 
@@ -24,5 +25,5 @@ public class ItemData : ScriptableObject
 
     [Header("# Weapon")]
     public GameObject projectile; // 투사체 (프리팹)
-
+    public Sprite hand; // 아이템 획득 시 손 스프라이트 적용
 }

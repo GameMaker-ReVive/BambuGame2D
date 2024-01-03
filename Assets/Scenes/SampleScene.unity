@@ -6894,7 +6894,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 10.222222
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7013,7 +7013,7 @@ RectTransform:
   - {fileID: 1208079924}
   - {fileID: 593042780}
   m_Father: {fileID: 2097123076}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7284,7 +7284,7 @@ RectTransform:
   - {fileID: 1488235627}
   - {fileID: 111821916}
   m_Father: {fileID: 2097123076}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8386,11 +8386,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockCharactor:
-  - {fileID: 1530405451}
   - {fileID: 385774468}
+  - {fileID: 1530405451}
   unlockCharactor:
-  - {fileID: 1343592426}
   - {fileID: 1828523611}
+  - {fileID: 1343592426}
   uiNotice: {fileID: 2097123075}
 --- !u!4 &983084503
 Transform:
@@ -26262,8 +26262,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 599211842}
   - {fileID: 522299169}
+  - {fileID: 599211842}
   m_Father: {fileID: 1352793321}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -10,7 +10,7 @@ public class AchiveManager : MonoBehaviour
     public GameObject[] unlockCharactor;
     public GameObject uiNotice;
 
-    enum Achive { UnlockPotato, UnlockBean }
+    enum Achive { UnlockBean, UnlockPotato }
     Achive[] achives; // 업적 데이터들을 저장해둘 배열
 
     WaitForSecondsRealtime wait; // 최적화를 위해 변수로 사용
@@ -75,10 +75,10 @@ public class AchiveManager : MonoBehaviour
         // 각 업적 별 해금 조건 설정
         switch(achive)
         {
-            case Achive.UnlockPotato:
+            case Achive.UnlockBean:
                 isAchive = GameManager.instance.kill >= 10;
                 break;
-            case Achive.UnlockBean:
+            case Achive.UnlockPotato:
                 isAchive = GameManager.instance.gameTime == GameManager.instance.maxGameTime;
                 break;
         }
@@ -91,8 +91,13 @@ public class AchiveManager : MonoBehaviour
             for(int index = 0; index < uiNotice.transform.childCount; index++)
             {
                 // enum Achive 에서 값을 찾아 일치하는 자식 오브젝트 활성화
-                bool isActive = index == (int)achive;
-                uiNotice.transform.GetChild(index).gameObject.SetActive(isAchive);
+                if(index == (int)achive)
+                {
+                    uiNotice.transform.GetChild(index).gameObject.SetActive(true);
+                } else
+                {
+                    uiNotice.transform.GetChild(index).gameObject.SetActive(false);
+                }
             }
 
             StartCoroutine(NoticeRoutine());

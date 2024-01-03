@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     [Header("# Game Control")]
     public float gameTime; // 게임시간
-    public float maxGameTime = 2 * 10f; // 최대게임시간
+    public float maxGameTime; // 최대게임시간
     public bool isLive;
 
     [Header("# Game Object")]
@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+
+        maxGameTime = 4 * 10f;
     }
 
     public void GameStart(int id)

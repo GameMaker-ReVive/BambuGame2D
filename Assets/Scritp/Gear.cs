@@ -24,6 +24,8 @@ public class Gear : MonoBehaviour
         ApplyGear();
     }
 
+    
+
     void ApplyGear(){
         switch(type){
             case ItemData.ItemType.Glove:
@@ -42,10 +44,12 @@ public class Gear : MonoBehaviour
         {
             switch(weapon.id){
                 case 0:
-                    weapon.speed = 150 + (150 * rate);
+                    float speed = 150 * Chactor.WeaponSpeed;
+                    weapon.speed = speed + (150 * rate);
                     break;
                 default :
-                    weapon.speed = 0.5f * (1f - rate);
+                    speed = 0.5f * Chactor.WeaponRate;
+                    weapon.speed = speed * (1f - rate);
                     break;
             }
             
@@ -53,7 +57,7 @@ public class Gear : MonoBehaviour
     }
 
     void SpeedUp(){
-        float speed = 3;
+        float speed = 3 * Chactor.Speed;
         GameManager.instance.player.speed = speed + speed * rate;
 
     }

@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float speed;
     public Scanner scanner;
     public Hand[] hands;
+    public RuntimeAnimatorController[] animCon;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -21,6 +22,13 @@ public class Player : MonoBehaviour
         scanner = GetComponent<Scanner>();
         hands = GetComponentsInChildren<Hand>(true); // bool 값을 true 로 넣으면 비활성화 된 오브젝트도 가져올 수 있음 -> 기본값은 비활성화된 오브젝트는 못 가져옴
     }
+
+    void OnEnable()
+    {
+        anim.runtimeAnimatorController = animCon[GameManager.instance.playerId];
+        speed *= Charactor.Speed;
+    }
+
     void Update(){
         if (!GameManager.instance.isLive)
             return;
@@ -50,4 +58,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!GameManager.instance.isLive)
+            return;
+
+        GameManager.instance.health -= Time.deltaTime *  10;
+
+        if(GameManager.instance.health < 0)
+        {
+            for(int index = 2; index < transform.childCount; index++)
+            {
+                transform.GetChild(index).gameObject.SetActive(false);
+            }
+
+            anim.SetTrigger("Dead");
+            GameManager.instance.GameOver();
+        }
+    }
 }

@@ -45,7 +45,7 @@ public class Weapon : MonoBehaviour
     // 레벨업
     public void LevelUp(float damage, int count)
     {
-        this.damage = damage;
+        this.damage = damage * Charactor.Damage;
         this.count += count;
 
         if (id == 0)
@@ -67,8 +67,8 @@ public class Weapon : MonoBehaviour
 
         // Property Set
         id = data.itemId;
-        damage = data.baseDamage;
-        count = data.baseCount;
+        damage = data.baseDamage * Charactor.Damage;
+        count = data.baseCount + Charactor.Count;
 
         for(int index = 0; index < GameManager.instance.pool.prefabs.Length; index++)
         {
@@ -83,12 +83,12 @@ public class Weapon : MonoBehaviour
         switch (id)
         {
             case 0:
-                speed = 150; // Vector3.back 를 사용하기에 양수여야지 시계방향으로 회전
+                speed = 150 * Charactor.WeaponSpeed; // Vector3.back 를 사용하기에 양수여야지 시계방향으로 회전
                 Batch();
                 break;
             default:
                 // speed 값은 연사속도를 의미 -> 적을 수록 많이 발사
-                speed = 0.3f;
+                speed = 0.5f * Charactor.WeaponRate;
                 break;
         }
 

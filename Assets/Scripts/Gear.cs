@@ -50,10 +50,12 @@ public class Gear : MonoBehaviour
             switch (weapon.id)
             {
                 case 0: // 근접 무기
-                    weapon.speed = 150 + (150 * rate);
+                    float speed = 150 * Charactor.WeaponSpeed;
+                    weapon.speed = speed + (speed * rate);
                     break;
                 default: // 원거리 무기
-                    weapon.speed = 0.5f * (1f - rate);
+                    speed = 0.5f * Charactor.WeaponRate;
+                    weapon.speed = speed * (1f - rate);
                     break;
             }
         }
@@ -62,7 +64,7 @@ public class Gear : MonoBehaviour
     // 신발의 기능인 이동 속도를 올리는 함수
     void SpeedUp()
     {
-        float speed = 5; // 플레이어 기본 속도
+        float speed = 5 * Charactor.Speed; // 플레이어 기본 속도
         GameManager.instance.player.speed = speed + speed * rate;
     }
 

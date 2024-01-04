@@ -23,7 +23,6 @@ public class Weapon : MonoBehaviour
         switch (id){
             case 0:
                 transform.Rotate(Vector3.forward * speed * Time.deltaTime);
-
                 break;
             default:
                 timer += Time.deltaTime;
@@ -77,7 +76,7 @@ public class Weapon : MonoBehaviour
                 Batch();
                 break;
             default:
-                speed = 0.4f * Chactor.WeaponRate;
+                speed = 0.5f * Chactor.WeaponRate;
                 break;
         }
 
@@ -108,7 +107,7 @@ public class Weapon : MonoBehaviour
             bullet.Rotate(rotVec);
             bullet.Translate(bullet.up * 1.5f, Space.World);
 
-            bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero);
+            bullet.GetComponent<Bullet>().Init(damage, -100, Vector3.zero);
         }
     }
     void Fire(){
@@ -125,6 +124,7 @@ public class Weapon : MonoBehaviour
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
         bullet.GetComponent<Bullet>().Init(damage, count, dir);
 
+        AudioManager.instance.Playsfx(AudioManager.Sfx.Range);
         
     }
 }

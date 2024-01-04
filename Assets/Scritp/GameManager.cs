@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public int level;
     public int kill;
     public int exp;
-    public int[] nextExp = {3, 5, 10, 30, 60, 100, 150, 210, 280, 360, 450, 600};
+    public int[] nextExp = {3, 5, 10, 100, 150, 210, 280, 360, 450, 600};
     [Header("# Game Object")]
     public Player player;
     public PoolManager pool;
@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         uiLevelUp.Select(playerId%2);
         Resume();
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.Playsfx(AudioManager.Sfx.Select);
+
         
     }
 
@@ -48,11 +51,13 @@ public class GameManager : MonoBehaviour
         isLive = false;
 
         yield return new WaitForSeconds(0.5f);
-
+     
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
-
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.Playsfx(AudioManager.Sfx.Lose);
+        
 
     }
 
@@ -70,7 +75,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
         Stop();
-
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.Playsfx(AudioManager.Sfx.Win);
+        
 
     }
 

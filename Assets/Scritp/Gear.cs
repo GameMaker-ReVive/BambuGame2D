@@ -45,7 +45,7 @@ public class Gear : MonoBehaviour
             switch(weapon.id){
                 case 0:
                     float speed = 150 * Chactor.WeaponSpeed;
-                    weapon.speed = speed + (150 * rate);
+                    weapon.speed = speed + (speed * rate);
                     break;
                 default :
                     speed = 0.5f * Chactor.WeaponRate;

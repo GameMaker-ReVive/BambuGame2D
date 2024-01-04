@@ -86,7 +86,8 @@ public class AchiveManager : MonoBehaviour
     IEnumerator NotiveRouinte()
     {
         uiNotice.SetActive(true);
-
+        AudioManager.instance.Playsfx(AudioManager.Sfx.LevelUp);
+        
         yield return wait;
         uiNotice.SetActive(false);
     }

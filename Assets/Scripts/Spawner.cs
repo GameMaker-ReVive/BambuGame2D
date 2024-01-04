@@ -5,7 +5,8 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
-    public SpawnData[] spawnData; 
+    public SpawnData[] spawnData;
+    public float levelTime; // 소환 레벨 구간을 결정하는 변수
 
     float timer;
     int level;
@@ -14,6 +15,7 @@ public class Spawner : MonoBehaviour
     {
         // 자식으로 설정해둔 오브젝트들 가져옴.
         spawnPoint = GetComponentsInChildren<Transform>();
+        levelTime = GameManager.instance.maxGameTime / spawnData.Length; // 최대 시간에 몬스터 데이터 크기로 나누어 자동으로 구간 시간 계산
     }
 
     void Update()

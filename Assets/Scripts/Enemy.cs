@@ -107,6 +107,9 @@ public class Enemy : MonoBehaviour
         {
             // 피격 애니메이션
             anim.SetTrigger("Hit");
+
+            // 효과음
+            AudioManager.instance.PlayerSfx(AudioManager.Sfx.Hit);
         }
         else
         {
@@ -126,6 +129,12 @@ public class Enemy : MonoBehaviour
             // 게임매니저 정보 추가
             GameManager.instance.kill++;
             GameManager.instance.GetExp();
+
+            // 효과음
+            if(GameManager.instance.isLive)
+            {
+                AudioManager.instance.PlayerSfx(AudioManager.Sfx.Dead);
+            }
         }
     }
 }

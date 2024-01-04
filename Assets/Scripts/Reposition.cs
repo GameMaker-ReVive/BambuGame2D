@@ -18,17 +18,23 @@ public class Reposition : MonoBehaviour
 
         Vector3 playerPos = GameManager.instance.player.transform.position;
         Vector3 myPos = transform.position;
-        float diffX = Mathf.Abs(playerPos.x - myPos.x);
-        float diffY = Mathf.Abs(playerPos.y - myPos.y);
-
-        Vector2 playerDir = GameManager.instance.player.inputVec;
-        float dirX = playerDir.x < 0 ? -1 : 1;
-        float dirY = playerDir.y < 0 ? -1 : 1;
 
         switch(transform.tag)
         {
             case "Ground":
-                if(diffX > diffY)
+                // 포지션값 차이 구하기
+                float diffX = playerPos.x - myPos.x;
+                float diffY = playerPos.y - myPos.y;
+
+                // 구해진 포지션값 차이가 음수인지 양수인지 판단
+                float dirX = diffX < 0 ? -1 : 1;
+                float dirY = diffY < 0 ? -1 : 1;
+
+                // 구해진 값을 절대값으로 변환
+                diffX = Mathf.Abs(diffX);
+                diffY = Mathf.Abs(diffY);
+
+                if (diffX > diffY)
                 {
                     transform.Translate(Vector3.right * dirX * 40);
                 }
@@ -36,16 +42,13 @@ public class Reposition : MonoBehaviour
                 {
                     transform.Translate(Vector3.up * dirY * 40);
                 }
-                if(diffX == diffY)
-                {
-                    transform.Translate(Vector3.up * dirY * 40);
-                    transform.Translate(Vector3.right * dirX * 40);
-                }
                 break;
             case "Enemy":
                 if(coll.enabled)
                 {
-                    transform.Translate(playerDir * 25 + new Vector2(Random.Range(-3f, 3f), Random.Range(-3f, 3f))); ;
+                    Vector3 dist = playerPos - myPos;
+                    Vector3 ran = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0);
+                    transform.Translate(ran + dist * 2); ;
                 }
                 break;
         }

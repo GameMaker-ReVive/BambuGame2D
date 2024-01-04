@@ -14,11 +14,11 @@ public class GameManager : MonoBehaviour
     public int exp;
     public float health;
     public float maxHealth = 100;
-    public int[] nextExp = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 600 }; // 각 레벨의 필요 경험치를 보관할 배열 변수 선언 및 초기화
+    public int[] nextExp = { 3, 5, 10, 100, 150, 210, 280, 360, 450, 600 }; // 각 레벨의 필요 경험치를 보관할 배열 변수 선언 및 초기화
 
     [Header("# Game Control")]
     public float gameTime; // 게임시간
-    public float maxGameTime = 2 * 10f; // 최대게임시간
+    public float maxGameTime; // 최대게임시간
     public bool isLive;
 
     [Header("# Game Object")]
@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         uiLevelUp.Select(playerId % 2);
         Resume();
+
+        AudioManager.instance.PlayerBgm(true);
+        AudioManager.instance.PlayerSfx(AudioManager.Sfx.Select);
     }
 
     public void GameOver()
@@ -61,6 +64,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
+
+        AudioManager.instance.PlayerBgm(false);
+        AudioManager.instance.PlayerSfx(AudioManager.Sfx.Lose);
     }
 
     public void GameVictory()
@@ -78,6 +84,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
         Stop();
+
+        AudioManager.instance.PlayerBgm(false);
+        AudioManager.instance.PlayerSfx(AudioManager.Sfx.Win);
     }
 
     public void GameRetry()

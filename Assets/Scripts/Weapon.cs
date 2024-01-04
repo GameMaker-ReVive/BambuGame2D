@@ -132,7 +132,7 @@ public class Weapon : MonoBehaviour
             bullet.Translate(bullet.up * 1.5f, Space.World);
 
             // 값 설정
-            bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1 은 관통력 무한의 의미
+            bullet.GetComponent<Bullet>().Init(damage, -100, Vector3.zero); // -1 은 관통력 무한의 의미
         }
     }
 
@@ -158,5 +158,8 @@ public class Weapon : MonoBehaviour
 
         // 값 설정
         bullet.GetComponent<Bullet>().Init(damage, count, dir);
+
+        // 효과음
+        AudioManager.instance.PlayerSfx(AudioManager.Sfx.Range);
     }
 }

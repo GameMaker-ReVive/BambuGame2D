@@ -60,7 +60,8 @@ public class Item : MonoBehaviour
                 {
                     GameObject newWeapon = new GameObject();
                     // AddComponent 함수 반환 값을 미리 선언한 변수에 저장
-                    weapon = newWeapon.AddComponent<Weapon>(); // AddComponent<T> : 게임오브젝트에 T 컴포넌트를 추가하는 함수
+                    weapon = newWeapon.AddComponent<Weapon>(); // AddComponent<T> : 게임오브젝트에 T 컴포넌트를 추가하는 함수4
+                    // newWeapon.transform.parent = GameManager.instance.player.transform;
                     weapon.Init(data);
                 }
                 else

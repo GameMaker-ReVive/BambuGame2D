@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public Vector2 inputVec; 
+    public Vector2 inputVec;
     public float speed;
     public Scanner scanner;
     public Hand[] hands;
@@ -15,7 +16,8 @@ public class Player : MonoBehaviour
     SpriteRenderer spriter;
     Animator anim;
 
-    void Awake() {
+    void Awake()
+    {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -29,14 +31,18 @@ public class Player : MonoBehaviour
         speed *= Charactor.Speed;
     }
 
-    void Update(){
+    void Update()
+    {
         if (!GameManager.instance.isLive)
             return;
 
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.y = Input.GetAxisRaw("Vertical");
+        // 키보드 입력
+        //inputVec.x = Input.GetAxisRaw("Horizontal");
+        //inputVec.y = Input.GetAxisRaw("Vertical");
     }
-    void FixedUpdate() {
+
+    void FixedUpdate()
+    {
         if (!GameManager.instance.isLive)
             return;
 
@@ -46,13 +52,25 @@ public class Player : MonoBehaviour
 
     }
 
-    void LateUpdate() {
+    // InputSystem 을 사용한 이동 함수
+    void OnMove(InputValue value)
+    {
+        if (!GameManager.instance.isLive)
+            return;
+
+        // Get<T> : 프로필에서 설정한 컨트롤 타입 T 값을 가져오는 함수
+        inputVec = value.Get<Vector2>();
+    }
+
+    void LateUpdate()
+    {
         if (!GameManager.instance.isLive)
             return;
 
         anim.SetFloat("Speed", inputVec.magnitude);
-        
-        if(inputVec.x != 0){
+
+        if (inputVec.x != 0)
+        {
             spriter.flipX = inputVec.x < 0;
 
         }
@@ -63,11 +81,11 @@ public class Player : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
 
-        GameManager.instance.health -= Time.deltaTime *  10;
+        GameManager.instance.health -= Time.deltaTime * 10;
 
-        if(GameManager.instance.health < 0)
+        if (GameManager.instance.health < 0)
         {
-            for(int index = 2; index < transform.childCount; index++)
+            for (int index = 2; index < transform.childCount; index++)
             {
                 transform.GetChild(index).gameObject.SetActive(false);
             }

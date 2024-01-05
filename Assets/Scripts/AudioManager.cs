@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour
             int ranIndex = 0;
             if(sfx == Sfx.Hit || sfx == Sfx.Melee)
             {
-                ranIndex = Random.RandomRange(0, 2);
+                ranIndex = Random.Range(0, 2);
             }
 
             channelIndex = loopIndex; // 사용한 loopIndex 를 저장

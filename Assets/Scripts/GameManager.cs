@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public LevelUp uiLevelUp;
     public Result uiResult;
     public GameObject enemyCleaner;
+    public Transform uiJoy; // 조이스틱
     
     // 정적으로 사용하겠다는 키워드. 바로 메모리에 얹어버림.
     // 초기화 없이 다른 코드에서 사용 가능 (앞에 자료형은 붙여줘야 함)
@@ -35,6 +36,22 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         if (instance == null)instance = this;
+
+        Application.targetFrameRate = 60; // 프레임 설정 -> 기본 값은 30 프레임
+    }
+
+    void Update()
+    {
+        if (!isLive)
+            return;
+
+        gameTime += Time.deltaTime;
+
+        if (gameTime >= maxGameTime)
+        {
+            gameTime = maxGameTime;
+            GameVictory();
+        }
     }
 
     public void GameStart(int id)
@@ -94,18 +111,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    void Update()
+    public void GameQuit()
     {
-        if (!isLive)
-            return;
-
-        gameTime += Time.deltaTime;
-
-        if(gameTime >= maxGameTime)
-        {
-            gameTime = maxGameTime;
-            GameVictory();
-        }
+        Application.Quit();
     }
 
     public void GetExp()
@@ -127,11 +135,13 @@ public class GameManager : MonoBehaviour
     {
         isLive = false;
         Time.timeScale = 0;
+        uiJoy.localScale = Vector3.zero; // 스케일을 0 으로 만들어서 안보이게 함
     }
 
     public void Resume()
     {
         isLive = true;
         Time.timeScale = 1;
+        uiJoy.localScale = Vector3.one; // 스케일을 1 으로 만들어서 보이게 함
     }
 }

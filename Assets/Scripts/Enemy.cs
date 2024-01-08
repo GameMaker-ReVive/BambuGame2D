@@ -87,7 +87,8 @@ public class Enemy : MonoBehaviour
         if (health > 0)
             {
             anim.SetTrigger("Hit");
-            }
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
+        }
             else
             {
             isLive = false;
@@ -97,12 +98,15 @@ public class Enemy : MonoBehaviour
             anim.SetBool("Dead", true);
             GameManager.instance.kill++;
             GameManager.instance.GetExp();
+
+            if (GameManager.instance.isLive)
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
             }
         }    
     
     IEnumerator KnockBack()
     {
-        yield return wait; //1프레임
+        yield return wait; //1프레임 딜레이
         Vector3 playerPos = GameManager.instance.player.transform.position;
         Vector3 dirVec = transform.position - playerPos;
         rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -28,15 +29,20 @@ public class Player : MonoBehaviour
         anim.runtimeAnimatorController = animCon[GameManager.instance.playerId];
     }
     void Update(){
-        if(!GameManager.instance.isLive)
-            return;
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.y = Input.GetAxisRaw("Vertical");
+         if(!GameManager.instance.isLive)
+             return;
+    //     inputVec.x = Input.GetAxisRaw("Horizontal");
+    //     inputVec.y = Input.GetAxisRaw("Vertical");
+    }
+    void OnMove(InputValue value){
+        
+        inputVec = value.Get<Vector2>();
+
     }
     void FixedUpdate() {
         if(!GameManager.instance.isLive)
             return;
-        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
+        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
 
         rigid.MovePosition(rigid.position + nextVec);
 
